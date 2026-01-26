@@ -84,6 +84,9 @@
             margin-bottom: 30px;
             color: white;
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
         }
 
         .now-playing {
@@ -492,11 +495,14 @@
         }
 
         // 이전 곡
+        // 이전 곡
         function prevSong() {
             if (songs.length === 0) return;
             currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
             loadSong(currentSongIndex);
-            if (isPlaying) audio.play();
+            audio.play();
+            isPlaying = true;
+            playBtn.textContent = '⏸';
         }
 
         // 다음 곡
@@ -504,7 +510,9 @@
             if (songs.length === 0) return;
             currentSongIndex = (currentSongIndex + 1) % songs.length;
             loadSong(currentSongIndex);
-            if (isPlaying) audio.play();
+            audio.play();
+            isPlaying = true;
+            playBtn.textContent = '⏸';
         }
 
         // 시간 포맷
