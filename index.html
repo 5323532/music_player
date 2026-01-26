@@ -569,16 +569,15 @@
                 songs = songsByCategory[currentCategory];
                 
                 // 재생 중이었으면 정지
-                if (isPlaying) {
-                    audio.pause();
-                    playBtn.textContent = '▶';
-                    isPlaying = false;
-                }
+                audio.pause();
+                playBtn.textContent = '▶';
+                isPlaying = false;
                 
                 // 첫 곡으로 리셋
                 currentSongIndex = 0;
                 audio.src = '';
-                currentTitle.textContent = '곡을 선택해주세요';
+                audio.load();
+                currentTitle.textContent = '음원을<br>선택해주세요^-^';
                 currentArtist.textContent = '-';
                 
                 // 재생목록 업데이트
