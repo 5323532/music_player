@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎵 고등I 음원</title>
+    <title>🎵 2026 봄학기 음원</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             background-attachment: fixed;
             background-size: cover;
             min-height: 100vh;
@@ -25,14 +25,14 @@
             overflow-x: hidden;
         }
 
-        /* 반짝이는 배경 효과 */
+        /* 벚꽃 느낌의 배경 효과 */
         body::before {
             content: '';
             position: absolute;
             width: 200%;
             height: 200%;
             background-image: 
-                radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px),
+                radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px),
                 radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
             background-size: 50px 50px, 80px 80px;
             background-position: 0 0, 40px 40px;
@@ -60,7 +60,7 @@
 
         h1 {
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -82,12 +82,12 @@
         }
 
         .player-main {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 30px;
             color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(161, 140, 209, 0.4);
             position: sticky;
             top: 20px;
             z-index: 100;
@@ -99,9 +99,10 @@
         }
 
         .now-playing h2 {
-            font-size: 1.8em;
+            font-size: 1.6em;
             margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            word-break: keep-all;
         }
 
         .now-playing p {
@@ -161,6 +162,7 @@
             font-size: 1.5em;
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: #a18cd1;
         }
 
         .control-btn:hover {
@@ -172,11 +174,10 @@
             width: 80px;
             height: 80px;
             font-size: 2em;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            color: #a18cd1;
         }
 
-        /* 배속 컨트롤 스타일 */
         .speed-control {
             display: flex;
             align-items: center;
@@ -186,7 +187,7 @@
         }
 
         .speed-slider {
-            width: 100px; /* 길이 조정됨 */
+            width: 100px;
             height: 6px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.3);
@@ -204,7 +205,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        /* 볼륨 컨트롤 스타일 */
         .volume-control {
             display: flex;
             align-items: center;
@@ -247,7 +247,7 @@
         }
 
         .song-item {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(161, 140, 209, 0.1) 0%, rgba(251, 194, 235, 0.1) 100%);
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 15px;
@@ -261,19 +261,20 @@
 
         .song-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
-            border-color: #667eea;
+            box-shadow: 0 10px 20px rgba(161, 140, 209, 0.2);
+            border-color: #a18cd1;
         }
 
         .song-item.active {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
-            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(161, 140, 209, 0.3) 0%, rgba(251, 194, 235, 0.3) 100%);
+            border-color: #a18cd1;
         }
 
         .song-info h3 {
             color: #333;
             margin-bottom: 5px;
-            font-size: 1.2em;
+            font-size: 1.1em;
+            word-break: keep-all;
         }
 
         .song-info p {
@@ -282,12 +283,11 @@
         }
 
         .song-duration {
-            color: #667eea;
+            color: #a18cd1;
             font-weight: bold;
             font-size: 1.1em;
         }
 
-        /* 스크롤바 스타일 */
         .playlist::-webkit-scrollbar {
             width: 8px;
         }
@@ -298,7 +298,7 @@
         }
 
         .playlist::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             border-radius: 10px;
         }
 
@@ -312,7 +312,7 @@
             font-size: 1.2em;
             margin-bottom: 10px;
         }
-        /* 탭 스타일 */
+
         .tabs {
             display: flex;
             gap: 10px;
@@ -334,31 +334,28 @@
         }
 
         .tab-btn:hover {
-            color: #667eea;
+            color: #a18cd1;
         }
 
         .tab-btn.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #a18cd1;
+            border-bottom-color: #a18cd1;
         }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
             }
-
             h1 {
                 font-size: 2em;
             }
-
             .controls {
                 gap: 15px;
             }
-
             .control-btn {
                 width: 50px;
                 height: 50px;
             }
-
             .control-btn.play {
                 width: 70px;
                 height: 70px;
@@ -368,8 +365,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎵 고등I 음원</h1>
-        <p class="subtitle">Created by YEP_Jule</p>
+        <h1>🎵 2026 봄학기</h1>
+        <p class="subtitle">Updated by Logo</p>
 
         <div class="player-main">
             <div class="now-playing">
@@ -408,8 +405,8 @@
         </div>
 
        <div class="tabs">
-            <button class="tab-btn active" data-category="실전모의고사">고등I_실모</button>
-            <button class="tab-btn" data-category="리스닝교재">리스닝교재</button>
+            <button class="tab-btn active" data-category="실전모의고사">실전모의고사 (심화)</button>
+            <button class="tab-btn" data-category="리스닝">리스닝 (유형편)</button>
         </div>
         <div class="playlist" id="playlist">
             <div class="empty-playlist">
@@ -423,31 +420,34 @@
     <audio id="audio"></audio>
 
     <script>
-        // 음원 목록을 카테고리별로 분류
+        // ★ 2026 봄학기 음원 목록 업데이트됨 ★
         const songsByCategory = {
             "실전모의고사": [
-                { title: "Week 2", artist: "고등영어", file: "music/실전모의고사/2026_겨울학기_week2_고등영어의 기술_실전모의고사(완성)_(MP3)_step.1.MP3", category: "실전모의고사" },
-                { title: "Week 3", artist: "고등영어", file: "music/실전모의고사/2026_겨울학기_week3_고등영어의 기술_실전모의고사(완성)_(MP3)_step.1.MP3", category: "실전모의고사" },
-                { title: "Week 4", artist: "고등영어", file: "music/실전모의고사/2026_겨울학기_week4_고등영어의 기술_실전모의고사(완성)_(MP3)_step.1.MP3", category: "실전모의고사" },
-                { title: "Week 5", artist: "고등영어", file: "music/실전모의고사/2026_겨울학기_week5_고등영어의 기술_실전모의고사(완성)_(MP3)_step.1.MP3", category: "실전모의고사" },
-                { title: "Week 6", artist: "고등영어", file: "music/실전모의고사/2026_겨울학기_week6_고등영어의 기술_실전모의고사(완성)_(MP3)_step.1.MP3", category: "실전모의고사" },
-                { title: "Week 7", artist: "고등영어", file: "music/실전모의고사/2026_겨울학기_week7_고등영어의 기술_실전모의고사(완성)_(MP3)_step.1.MP3", category: "실전모의고사" },
-                { title: "Week 8", artist: "고등영어", file: "music/실전모의고사/2026_겨울학기_week8_고등영어의 기술_실전모의고사(완성)_(MP3)_step.1.mp3", category: "실전모의고사" }
+                { title: "Week 2 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week2_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
+                { title: "Week 3 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week3_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
+                { title: "Week 4 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week4_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
+                { title: "Week 5 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week5_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
+                { title: "Week 6 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week6_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
+                { title: "Week 7 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week7_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
+                { title: "Week 8 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week8_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.mp3" }
             ],
-            "리스닝교재": [
-                { title: "Week 2 - 실전모의고사 1", artist: "고등영어", file: "music/리스닝교재/Week2_실전모의고사1.mp3", category: "리스닝교재" },
-                { title: "Week 2 - 실전모의고사 2", artist: "고등영어", file: "music/리스닝교재/Week2_실전모의고사2.mp3", category: "리스닝교재" },
-                { title: "Week 3 - 실전모의고사 1", artist: "고등영어", file: "music/리스닝교재/Week3_실전모의고사1.mp3", category: "리스닝교재" },
-                { title: "Week 3 - 실전모의고사 2", artist: "고등영어", file: "music/리스닝교재/Week3_실전모의고사2.mp3", category: "리스닝교재" },
-                { title: "Week 4 - 실전모의고사 1", artist: "고등영어", file: "music/리스닝교재/Week4_실전모의고사1.mp3", category: "리스닝교재" },
-                { title: "Week 4 - 실전모의고사 2", artist: "고등영어", file: "music/리스닝교재/Week4_실전모의고사2.mp3", category: "리스닝교재" },
-                { title: "Week 5 - 실전모의고사 1", artist: "고등영어", file: "music/리스닝교재/Week5_실전모의고사1.mp3", category: "리스닝교재" },
-                { title: "Week 5 - 실전모의고사 2", artist: "고등영어", file: "music/리스닝교재/Week5_실전모의고사2.mp3", category: "리스닝교재" },
-                { title: "Week 6 - 실전모의고사 1", artist: "고등영어", file: "music/리스닝교재/Week6_실전모의고사1.mp3", category: "리스닝교재" },
-                { title: "Week 6 - 실전모의고사 2", artist: "고등영어", file: "music/리스닝교재/Week6_실전모의고사2.mp3", category: "리스닝교재" },
-                { title: "Week 7 - 실전모의고사 1", artist: "고등영어", file: "music/리스닝교재/Week7_실전모의고사1.mp3", category: "리스닝교재" },
-                { title: "Week 7 - 실전모의고사 2", artist: "고등영어", file: "music/리스닝교재/Week7_실전모의고사2.mp3", category: "리스닝교재" },
-                { title: "Week 8 - 실전모의고사 1", artist: "고등영어", file: "music/리스닝교재/Week8_실전모의고사.mp3", category: "리스닝교재" }
+            "리스닝": [
+                { title: "Week 3 - 실전모의고사", artist: "리스닝", file: "music/Listening/Week3_실전모의고사.mp3" },
+                { title: "Week 3 - 유형편 (긴 대화의 응답)", artist: "리스닝", file: "music/Listening/Week3_유형편_긴 대화의 응답.mp3" },
+                
+                { title: "Week 4 - 실전모의고사", artist: "리스닝", file: "music/Listening/Week4_실전모의고사.mp3" },
+                { title: "Week 4 - 유형편 (학교,가정 생활)", artist: "리스닝", file: "music/Listening/Week4_유형편_학교,가정 생활.mp3" },
+                
+                { title: "Week 5 - 실전모의고사", artist: "리스닝", file: "music/Listening/Week5_실전모의고사.mp3" },
+                { title: "Week 5 - 유형편 (문화,사회 생활)", artist: "리스닝", file: "music/Listening/Week5_유형편_문화,사회 생활.mp3" },
+                
+                { title: "Week 6 - 실전모의고사", artist: "리스닝", file: "music/Listening/Week6_실전모의고사.mp3" },
+                { title: "Week 6 - 유형편 (직장 생활)", artist: "리스닝", file: "music/Listening/Week6_유형편_직장 생활.mp3" },
+                
+                { title: "Week 7 - 실전모의고사", artist: "리스닝", file: "music/Listening/Week7_실전모의고사.mp3" },
+                { title: "Week 7 - 유형편 (일상 생활)", artist: "리스닝", file: "music/Listening/Week7_유형편_일상 생활.mp3" },
+                
+                { title: "Week 8 - 실전모의고사", artist: "리스닝", file: "music/Listening/Week8_실전모의고사.mp3" }
             ]
         };
 
@@ -464,12 +464,10 @@
         const currentTimeEl = document.getElementById('currentTime');
         const durationEl = document.getElementById('duration');
         
-        // 볼륨 및 배속 요소
         const volumeSlider = document.getElementById('volumeSlider');
         const speedSlider = document.getElementById('speedSlider');
         const speedValue = document.getElementById('speedValue');
 
-        // 이동 버튼
         const rewindBtn = document.getElementById('rewindBtn');
         const forwardBtn = document.getElementById('forwardBtn');
 
@@ -477,12 +475,11 @@
         const currentArtist = document.getElementById('currentArtist');
         const playlistEl = document.getElementById('playlist');
 
-        // 초기 볼륨 설정
         audio.volume = 0.7;
 
-        // 재생목록 표시
         function displayPlaylist() {
-            if (songs.length === 0) {
+            if (!songs || songs.length === 0) {
+                playlistEl.innerHTML = '<div class="empty-playlist"><p>🎼</p><p>목록이 비어있어요</p></div>';
                 return;
             }
 
@@ -505,9 +502,8 @@
             });
         }
 
-        // 곡 로드
         function loadSong(index) {
-            if (songs.length === 0) return;
+            if (!songs || songs.length === 0) return;
             
             currentSongIndex = index;
             const song = songs[currentSongIndex];
@@ -521,9 +517,8 @@
             }
         }
 
-        // 재생/일시정지
         function togglePlay() {
-            if (songs.length === 0) {
+            if (!songs || songs.length === 0) {
                 alert('재생할 음원이 없어요! 😢');
                 return;
             }
@@ -541,9 +536,8 @@
             isPlaying = !isPlaying;
         }
 
-        // 다음 곡
         function nextSong() {
-            if (songs.length === 0) return;
+            if (!songs || songs.length === 0) return;
             currentSongIndex = (currentSongIndex + 1) % songs.length;
             loadSong(currentSongIndex);
             audio.play();
@@ -551,36 +545,32 @@
             playBtn.textContent = '⏸';
         }
 
-        // 시간 포맷
         function formatTime(seconds) {
+            if(isNaN(seconds)) return "0:00";
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
         
-        // UI 업데이트 함수 (즉각 반응용)
         function updateUI() {
-            const progressPercent = (audio.currentTime / audio.duration) * 100;
-            progress.style.width = `${progressPercent}%`;
-            currentTimeEl.textContent = formatTime(audio.currentTime);
+            if(audio.duration) {
+                const progressPercent = (audio.currentTime / audio.duration) * 100;
+                progress.style.width = `${progressPercent}%`;
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
         }
 
-        // 이벤트 리스너
         playBtn.onclick = togglePlay;
         
-        // 2초 뒤로 (과거)
         rewindBtn.onclick = () => {
-            // 현재 시간에서 2초 뺌 (0보다 작아지지 않게 Math.max 사용)
-            audio.currentTime = Math.max(0, audio.currentTime - 3);
-            updateUI(); // 즉시 화면 갱신
+            audio.currentTime = Math.max(0, audio.currentTime - 3); 
+            updateUI();
         };
 
-        // 12초 앞으로 (미래)
         forwardBtn.onclick = () => {
-            // 현재 시간에서 12초 더함 (총 길이 넘지 않게 Math.min 사용)
             if (audio.duration) {
                 audio.currentTime = Math.min(audio.duration, audio.currentTime + 12);
-                updateUI(); // 즉시 화면 갱신
+                updateUI();
             }
         };
 
@@ -598,7 +588,7 @@
         });
 
         progressBar.addEventListener('click', (e) => {
-            if (songs.length === 0) return;
+            if (!songs || songs.length === 0) return;
             const width = progressBar.clientWidth;
             const clickX = e.offsetX;
             const duration = audio.duration;
@@ -609,17 +599,14 @@
             audio.volume = e.target.value / 100;
         });
 
-        // 배속 조절 이벤트
         speedSlider.addEventListener('input', (e) => {
             const speed = e.target.value;
             audio.playbackRate = speed;
             speedValue.textContent = speed + 'x';
         });
 
-        // 초기화
         displayPlaylist();
         
-        // 탭 전환 기능
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
