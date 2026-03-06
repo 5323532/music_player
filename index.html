@@ -10,102 +10,106 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-            height: 100vh; /* 화면 전체 높이 사용 */
-            overflow: hidden; /* 전체 스크롤 막고 내부에서 스크롤 */
-            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+            /* ★ 전체 화면 스크롤 허용 (답답함 해소) ★ */
+            overflow-y: auto; 
+            display: flex; justify-content: center; align-items: flex-start;
+            padding: 20px 10px;
         }
 
         .container {
             background: rgba(255, 255, 255, 0.98);
-            width: 100%; height: 100%;
-            max-width: 600px; /* PC에서는 적당한 폭 */
-            display: flex; flex-direction: column; /* 상단 고정 + 하단 스크롤 구조 */
+            width: 100%; 
+            max-width: 600px; /* PC에서는 너무 퍼지지 않게 */
+            min-height: 90vh; 
+            border-radius: 30px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
             position: relative;
-        }
-        
-        @media (min-width: 600px) {
-            .container { height: 90vh; border-radius: 30px; }
+            padding-bottom: 40px;
         }
 
-        /* ★ 상단 고정 영역 (제목 + 플레이어 + 탭) ★ */
-        .fixed-header {
-            flex-shrink: 0; /* 절대 줄어들지 않음 */
-            padding: 30px 30px 0 30px;
-            background: rgba(255, 255, 255, 0.98);
-            z-index: 10;
+        /* 상단 플레이어 영역 */
+        .player-header {
+            padding: 40px 30px 10px 30px;
         }
 
         h1 {
             text-align: center;
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-size: 1.8em; margin-bottom: 5px;
+            font-size: 2em; margin-bottom: 5px;
         }
-        .subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 0.9em; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 0.9em; }
 
-        .player-main {
+        .player-box {
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             border-radius: 20px; padding: 25px; color: white;
             box-shadow: 0 10px 30px rgba(161, 140, 209, 0.4);
-            margin-bottom: 20px;
         }
 
-        .now-playing { text-align: center; margin-bottom: 15px; }
-        .now-playing h2 { font-size: 1.4em; margin-bottom: 5px; word-break: keep-all; line-height: 1.2; }
+        .now-playing { text-align: center; margin-bottom: 20px; }
+        .now-playing h2 { font-size: 1.5em; margin-bottom: 5px; word-break: keep-all; line-height: 1.3; }
         
+        .progress-container { margin-bottom: 10px; }
         .progress-bar {
             width: 100%; height: 6px; background: rgba(255, 255, 255, 0.3);
             border-radius: 10px; cursor: pointer; position: relative; overflow: hidden;
         }
         .progress { height: 100%; background: white; border-radius: 10px; width: 0%; }
-        .time-display { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8em; opacity: 0.9; }
+        .time-display { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85em; opacity: 0.95; }
         
-        .controls { display: flex; justify-content: center; align-items: center; gap: 30px; margin: 20px 0; }
+        /* 컨트롤 버튼 */
+        .controls { display: flex; justify-content: center; align-items: center; gap: 25px; margin: 25px 0; }
         .control-btn {
-            background: white; border: none; width: 50px; height: 50px; border-radius: 50%;
+            background: white; border: none; width: 55px; height: 55px; border-radius: 50%;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
             font-size: 1.1em; color: #a18cd1; font-weight: bold;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
         }
         .control-btn:active { transform: scale(0.95); }
-        .control-btn.play { width: 70px; height: 70px; font-size: 2em; }
+        .control-btn.play { width: 75px; height: 75px; font-size: 2em; }
 
-        /* ★ 배속/볼륨 줄 맞춤 & 가로 배치 ★ */
-        .settings-container {
-            display: flex; flex-direction: column; gap: 12px; margin-top: 15px;
+        /* ★ 배속/볼륨 줄 맞춤 설정 ★ */
+        .settings-box {
+            display: flex; flex-direction: column; gap: 15px; margin-top: 20px;
         }
         .setting-row {
-            display: flex; 
-            align-items: center; 
-            width: 100%;
+            display: flex; align-items: center; width: 100%;
         }
-        /* 라벨: 글씨 절대 안 쪼개지게(nowrap) + 너비 고정(50px) */
+        /* 글씨 공간 고정 + 줄바꿈 금지 */
         .setting-label {
-            width: 50px; 
-            min-width: 50px; /* 공간 확보 */
-            text-align: right; 
-            font-size: 0.9em; 
-            font-weight: bold; 
-            margin-right: 15px;
-            white-space: nowrap; /* ★ 글씨 세로로 쪼개짐 방지 ★ */
+            width: 60px; /* 공간 확보 */
+            min-width: 60px;
+            font-size: 0.95em; font-weight: bold; 
+            white-space: nowrap; /* ★ 글씨 세로 깨짐 방지 ★ */
+            text-align: left;
         }
         .setting-slider {
             flex-grow: 1; /* 남은 공간 꽉 채우기 */
             accent-color: white; height: 5px; cursor: pointer;
         }
         .setting-value {
-            width: 35px; text-align: left; font-size: 0.9em; margin-left: 10px; white-space: nowrap;
+            width: 40px; text-align: right; font-size: 0.9em; font-weight: bold;
         }
 
-        /* 탭 영역 */
-        .tabs {
-            display: flex; gap: 10px; padding-bottom: 10px;
+        /* ★ 탭이 천장에 붙는 기능 (Sticky) ★ */
+        .tabs-container {
+            position: -webkit-sticky; position: sticky; /* 스크롤 시 상단 고정 */
+            top: 0; 
+            z-index: 999; /* 다른 요소보다 위에 */
+            background: rgba(255, 255, 255, 0.98); /* 배경색 지정 (투명하면 글씨 겹침) */
+            padding: 15px 30px;
             border-bottom: 1px solid #eee;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05); /* 살짝 그림자 */
         }
+        /* PC 화면 둥근 모서리 대응 */
+        @media (min-width: 600px) { .tabs-container { border-radius: 30px 30px 0 0; } }
+
+        .tabs { display: flex; gap: 10px; }
         .tab-btn {
             flex: 1; padding: 12px; background: #f5f5f7; border: none;
-            border-radius: 12px; font-size: 1em; font-weight: bold; color: #999;
+            border-radius: 12px; font-size: 1em; font-weight: bold; color: #888;
             cursor: pointer; white-space: nowrap; transition: all 0.2s;
         }
         .tab-btn.active { 
@@ -113,34 +117,36 @@
             box-shadow: 0 4px 10px rgba(161, 140, 209, 0.3);
         }
 
-        /* ★ 리스트 영역 (여기만 스크롤 됨) ★ */
-        .playlist-scroll-area {
-            flex: 1; /* 남은 공간 모두 차지 */
-            overflow-y: auto; /* 세로 스크롤 허용 */
-            padding: 20px 30px;
-            -webkit-overflow-scrolling: touch; /* 부드러운 스크롤 */
-        }
-        
+        /* 리스트 영역 */
+        .playlist { padding: 20px 30px; }
         .song-item {
             background: white; border: 1px solid #eee; padding: 18px 20px; border-radius: 15px;
             margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             transition: all 0.2s;
         }
-        .song-item:hover { background: #f9f9f9; transform: translateY(-2px); }
-        .song-item.active { background: rgba(161, 140, 209, 0.1); border-color: #a18cd1; }
+        .song-item:hover { background: #fdfdfd; transform: translateY(-2px); border-color: #ddd; }
+        
+        .song-item.active { 
+            background: rgba(161, 140, 209, 0.08); 
+            border: 1px solid #a18cd1; 
+        }
         .song-item.active h3 { color: #a18cd1; font-weight: bold; }
+        
         .song-info h3 { font-size: 1em; color: #333; margin-bottom: 4px; }
         .song-info p { font-size: 0.85em; color: #888; }
-        .empty-playlist { text-align: center; padding: 40px; color: #999; }
+        .song-duration { font-size: 1.1em; color: #ccc; }
+        .song-item.active .song-duration { color: #a18cd1; }
+
+        .empty-playlist { text-align: center; padding: 50px; color: #aaa; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="fixed-header">
+        <div class="player-header">
             <h1>🎵 2026 봄학기</h1>
             <p class="subtitle">Created by 줄래샘</p>
 
-            <div class="player-main">
+            <div class="player-box">
                 <div class="now-playing">
                     <h2 id="currentTitle">파일을 선택하세요</h2>
                     <p id="currentArtist">-</p>
@@ -157,7 +163,7 @@
                     <button class="control-btn" id="forwardBtn">+10</button>
                 </div>
 
-                <div class="settings-container">
+                <div class="settings-box">
                     <div class="setting-row">
                         <span class="setting-label">⚡ 배속</span>
                         <input type="range" class="setting-slider" id="speedSlider" min="1.0" max="1.5" step="0.1" value="1.0">
@@ -169,16 +175,16 @@
                         <span class="setting-value"></span> </div>
                 </div>
             </div>
+        </div>
 
+        <div class="tabs-container">
             <div class="tabs">
                 <button class="tab-btn active" data-category="실전모의고사">실전모의고사</button>
                 <button class="tab-btn" data-category="리스닝">리스닝</button>
             </div>
         </div>
 
-        <div class="playlist-scroll-area">
-            <div class="playlist" id="playlist"></div>
-        </div>
+        <div class="playlist" id="playlist"></div>
     </div>
 
     <audio id="audio"></audio>
@@ -256,11 +262,18 @@
             currentTitle.textContent = song.title;
             currentArtist.textContent = song.artist;
             displayPlaylist();
-            if (isPlaying) audio.play();
+            
+            // ★ 클릭 시 즉시 재생 복구 ★
+            audio.play().then(() => {
+                isPlaying = true;
+                playBtn.textContent = '⏸';
+            }).catch(error => {
+                console.log("Autoplay prevented:", error);
+            });
         }
 
         function togglePlay() {
-            if (!audio.src) loadSong(0);
+            if (!audio.src) { loadSong(0); return; }
             if (isPlaying) { audio.pause(); playBtn.textContent = '▶'; }
             else { audio.play(); playBtn.textContent = '⏸'; }
             isPlaying = !isPlaying;
@@ -268,7 +281,7 @@
 
         playBtn.onclick = togglePlay;
         rewindBtn.onclick = () => { audio.currentTime = Math.max(0, audio.currentTime - 3); };
-        forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 10); };
+        forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 9); };
         
         audio.addEventListener('timeupdate', () => {
             if(audio.duration) {
