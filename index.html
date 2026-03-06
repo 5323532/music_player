@@ -176,11 +176,40 @@
             color: white;
         }
 
-        .volume-control {
+        /* 배속 컨트롤 스타일 (추가됨) */
+        .speed-control {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-top: 20px;
+            justify-content: center;
+        }
+
+        .speed-slider {
+            width: 150px;
+            height: 6px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 볼륨 컨트롤 스타일 */
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
             justify-content: center;
         }
 
@@ -283,7 +312,7 @@
             font-size: 1.2em;
             margin-bottom: 10px;
         }
-/* 탭 스타일 */
+        /* 탭 스타일 */
         .tabs {
             display: flex;
             gap: 10px;
@@ -364,8 +393,14 @@
                 <button class="control-btn" id="nextBtn">⏭</button>
             </div>
 
+            <div class="speed-control">
+                <span>⚡ 배속</span>
+                <input type="range" class="speed-slider" id="speedSlider" min="1.0" max="1.5" step="0.1" value="1.0">
+                <span id="speedValue" style="width: 40px; text-align: right;">1.0x</span>
+            </div>
+
             <div class="volume-control">
-                <span>🔊</span>
+                <span>🔊 볼륨</span>
                 <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
             </div>
         </div>
@@ -428,7 +463,12 @@
         const progress = document.getElementById('progress');
         const currentTimeEl = document.getElementById('currentTime');
         const durationEl = document.getElementById('duration');
+        
+        // 볼륨 및 배속 요소 가져오기
         const volumeSlider = document.getElementById('volumeSlider');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+
         const currentTitle = document.getElementById('currentTitle');
         const currentArtist = document.getElementById('currentArtist');
         const playlistEl = document.getElementById('playlist');
@@ -498,7 +538,6 @@
         }
 
         // 이전 곡
-        // 이전 곡
         function prevSong() {
             if (songs.length === 0) return;
             currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
@@ -538,6 +577,8 @@
 
         audio.addEventListener('loadedmetadata', () => {
             durationEl.textContent = formatTime(audio.duration);
+            // 곡이 바뀌어도 설정한 배속 유지
+            audio.playbackRate = speedSlider.value;
         });
 
         audio.addEventListener('ended', () => {
@@ -556,8 +597,16 @@
             audio.volume = e.target.value / 100;
         });
 
+        // 배속 조절 이벤트 (추가됨)
+        speedSlider.addEventListener('input', (e) => {
+            const speed = e.target.value;
+            audio.playbackRate = speed;
+            speedValue.textContent = speed + 'x';
+        });
+
         // 초기화
         displayPlaylist();
+        
         // 탭 전환 기능
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
