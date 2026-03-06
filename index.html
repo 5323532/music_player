@@ -176,7 +176,7 @@
             color: white;
         }
 
-        /* 배속 컨트롤 스타일 (추가됨) */
+        /* 배속 컨트롤 스타일 */
         .speed-control {
             display: flex;
             align-items: center;
@@ -388,17 +388,15 @@
             </div>
 
             <div class="controls">
-                <button class="control-btn" id="rewindBtn" style="font-size: 14px; font-weight: bold;">-12</button>
+                <button class="control-btn" id="rewindBtn" style="font-size: 14px; font-weight: bold;">-2</button>
                 
-                <button class="control-btn" id="prevBtn">⏮</button>
                 <button class="control-btn play" id="playBtn">▶</button>
-                <button class="control-btn" id="nextBtn">⏭</button>
                 
-                <button class="control-btn" id="forwardBtn" style="font-size: 14px; font-weight: bold;">+3</button>
+                <button class="control-btn" id="forwardBtn" style="font-size: 14px; font-weight: bold;">+12</button>
             </div>
 
             <div class="speed-control">
-                <span>⚡ 배속</span>
+                <span style="white-space: nowrap;">⚡ 배속</span>
                 <input type="range" class="speed-slider" id="speedSlider" min="1.0" max="1.5" step="0.1" value="1.0">
                 <span id="speedValue" style="width: 40px; text-align: right;">1.0x</span>
             </div>
@@ -461,8 +459,7 @@
 
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        // 이전/다음 버튼 변수 삭제됨
         const progressBar = document.getElementById('progressBar');
         const progress = document.getElementById('progress');
         const currentTimeEl = document.getElementById('currentTime');
@@ -473,20 +470,13 @@
         const speedSlider = document.getElementById('speedSlider');
         const speedValue = document.getElementById('speedValue');
 
-        const currentTitle = document.getElementById('currentTitle');
-        const currentArtist = document.getElementById('currentArtist');
-        const playlistEl = document.getElementById('playlist');
-        // 12초/3초 이동 버튼 설정 (이 부분을 추가하세요)
+        // 이동 버튼 가져오기 (수정됨)
         const rewindBtn = document.getElementById('rewindBtn');
         const forwardBtn = document.getElementById('forwardBtn');
 
-        rewindBtn.onclick = () => {
-            audio.currentTime -= 3;
-        };
-
-        forwardBtn.onclick = () => {
-            audio.currentTime += 12;
-        };
+        const currentTitle = document.getElementById('currentTitle');
+        const currentArtist = document.getElementById('currentArtist');
+        const playlistEl = document.getElementById('playlist');
 
         // 초기 볼륨 설정
         audio.volume = 0.7;
@@ -552,17 +542,7 @@
             isPlaying = !isPlaying;
         }
 
-        // 이전 곡
-        function prevSong() {
-            if (songs.length === 0) return;
-            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-            loadSong(currentSongIndex);
-            audio.play();
-            isPlaying = true;
-            playBtn.textContent = '⏸';
-        }
-
-        // 다음 곡
+        // 다음 곡 (함수는 유지하되 버튼 연결은 삭제)
         function nextSong() {
             if (songs.length === 0) return;
             currentSongIndex = (currentSongIndex + 1) % songs.length;
@@ -581,8 +561,16 @@
 
         // 이벤트 리스너
         playBtn.onclick = togglePlay;
-        prevBtn.onclick = prevSong;
-        nextBtn.onclick = nextSong;
+        
+        // 2초 뒤로 (과거) - 수정됨
+        rewindBtn.onclick = () => {
+            audio.currentTime -= 2;
+        };
+
+        // 12초 앞으로 (미래) - 수정됨
+        forwardBtn.onclick = () => {
+            audio.currentTime += 12;
+        };
 
         audio.addEventListener('timeupdate', () => {
             const progressPercent = (audio.currentTime / audio.duration) * 100;
@@ -596,6 +584,7 @@
             audio.playbackRate = speedSlider.value;
         });
 
+        // 한 곡이 끝나면 자동으로 다음 곡 재생 (기능 유지)
         audio.addEventListener('ended', () => {
             nextSong();
         });
@@ -612,7 +601,7 @@
             audio.volume = e.target.value / 100;
         });
 
-        // 배속 조절 이벤트 (추가됨)
+        // 배속 조절 이벤트
         speedSlider.addEventListener('input', (e) => {
             const speed = e.target.value;
             audio.playbackRate = speed;
