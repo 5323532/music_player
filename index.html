@@ -289,7 +289,7 @@
         playBtn.onclick = togglePlay;
         // 설정해주신 -3초, +10초 유지
         rewindBtn.onclick = () => { audio.currentTime = Math.max(0, audio.currentTime - 3); };
-        forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 10); };
+        forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 9); };
         
         audio.addEventListener('timeupdate', () => {
             if(audio.duration) {
