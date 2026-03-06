@@ -10,28 +10,30 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-            min-height: 100vh;
-            /* 스크롤 다시 허용 */
-            overflow-y: auto; 
-            display: flex; justify-content: center; align-items: flex-start; /* 위에서부터 시작 */
-            padding: 20px 10px;
+            height: 100vh; /* 화면 전체 높이 사용 */
+            overflow: hidden; /* 전체 스크롤 막고 내부에서 스크롤 */
+            display: flex; justify-content: center; align-items: center;
         }
 
         .container {
             background: rgba(255, 255, 255, 0.98);
-            width: 100%; 
-            max-width: 600px;
-            /* 높이 제한 해제 -> 목록 길게 나옴 */
-            min-height: 90vh; 
-            border-radius: 30px;
+            width: 100%; height: 100%;
+            max-width: 600px; /* PC에서는 적당한 폭 */
+            display: flex; flex-direction: column; /* 상단 고정 + 하단 스크롤 구조 */
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
             position: relative;
-            padding-bottom: 30px;
+        }
+        
+        @media (min-width: 600px) {
+            .container { height: 90vh; border-radius: 30px; }
         }
 
-        /* 헤더 영역 (제목 + 플레이어) */
-        .header-section {
-            padding: 40px 30px 10px 30px;
+        /* ★ 상단 고정 영역 (제목 + 플레이어 + 탭) ★ */
+        .fixed-header {
+            flex-shrink: 0; /* 절대 줄어들지 않음 */
+            padding: 30px 30px 0 30px;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 10;
         }
 
         h1 {
@@ -46,6 +48,7 @@
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             border-radius: 20px; padding: 25px; color: white;
             box-shadow: 0 10px 30px rgba(161, 140, 209, 0.4);
+            margin-bottom: 20px;
         }
 
         .now-playing { text-align: center; margin-bottom: 15px; }
@@ -68,62 +71,55 @@
         .control-btn:active { transform: scale(0.95); }
         .control-btn.play { width: 70px; height: 70px; font-size: 2em; }
 
-        /* 배속/볼륨 줄 맞춤 (Flexbox Grid) */
+        /* ★ 배속/볼륨 줄 맞춤 & 가로 배치 ★ */
         .settings-container {
             display: flex; flex-direction: column; gap: 12px; margin-top: 15px;
         }
         .setting-row {
-            display: flex; align-items: center; justify-content: center;
+            display: flex; 
+            align-items: center; 
+            width: 100%;
         }
-        /* 라벨 너비 고정 */
+        /* 라벨: 글씨 절대 안 쪼개지게(nowrap) + 너비 고정(50px) */
         .setting-label {
-            width: 45px; text-align: right; font-size: 0.9em; font-weight: bold; margin-right: 10px;
+            width: 50px; 
+            min-width: 50px; /* 공간 확보 */
+            text-align: right; 
+            font-size: 0.9em; 
+            font-weight: bold; 
+            margin-right: 15px;
+            white-space: nowrap; /* ★ 글씨 세로로 쪼개짐 방지 ★ */
         }
-        /* 슬라이더 */
         .setting-slider {
-            flex: 1; /* 남은 공간 차지 */
-            max-width: 150px; /* 너무 길어지지 않게 */
+            flex-grow: 1; /* 남은 공간 꽉 채우기 */
             accent-color: white; height: 5px; cursor: pointer;
         }
-        /* 값 표시 너비 고정 */
         .setting-value {
-            width: 35px; text-align: left; font-size: 0.9em; margin-left: 10px;
+            width: 35px; text-align: left; font-size: 0.9em; margin-left: 10px; white-space: nowrap;
         }
 
-        /* ★ 탭이 천장에 붙는 마법 (Sticky) ★ */
+        /* 탭 영역 */
         .tabs {
-            position: -webkit-sticky; /* 사파리 호환 */
-            position: sticky;
-            top: 0; /* 화면 맨 위에서 멈춤 */
-            z-index: 1000; /* 목록보다 위에 뜨도록 */
-            background: rgba(255, 255, 255, 0.98); /* 배경색을 줘서 목록이 비치지 않게 */
-            
-            display: flex; gap: 10px; padding: 15px 30px;
+            display: flex; gap: 10px; padding-bottom: 10px;
             border-bottom: 1px solid #eee;
-            margin-top: 10px;
-            
-            /* 살짝 그림자 줘서 떠있는 느낌 */
-            box-shadow: 0 5px 15px rgba(255,255,255, 1); 
         }
-
-        /* 둥근 모서리 컨테이너 안에서 sticky가 잘 작동하도록 */
-        @media (min-width: 600px) {
-            .tabs { border-radius: 30px 30px 0 0; } /* PC 화면에서는 탭 윗부분도 둥글게 */
-        }
-
         .tab-btn {
             flex: 1; padding: 12px; background: #f5f5f7; border: none;
-            border-radius: 12px; /* 버튼 자체를 둥글게 */
-            font-size: 1em; font-weight: bold; color: #999;
+            border-radius: 12px; font-size: 1em; font-weight: bold; color: #999;
             cursor: pointer; white-space: nowrap; transition: all 0.2s;
         }
         .tab-btn.active { 
-            background: #a18cd1; color: white; /* 활성화되면 보라색 배경 */
+            background: #a18cd1; color: white;
             box-shadow: 0 4px 10px rgba(161, 140, 209, 0.3);
         }
 
-        /* 리스트 영역 */
-        .playlist { padding: 20px 30px; }
+        /* ★ 리스트 영역 (여기만 스크롤 됨) ★ */
+        .playlist-scroll-area {
+            flex: 1; /* 남은 공간 모두 차지 */
+            overflow-y: auto; /* 세로 스크롤 허용 */
+            padding: 20px 30px;
+            -webkit-overflow-scrolling: touch; /* 부드러운 스크롤 */
+        }
         
         .song-item {
             background: white; border: 1px solid #eee; padding: 18px 20px; border-radius: 15px;
@@ -131,22 +127,16 @@
             transition: all 0.2s;
         }
         .song-item:hover { background: #f9f9f9; transform: translateY(-2px); }
-        
-        .song-item.active { 
-            background: rgba(161, 140, 209, 0.1); 
-            border-color: #a18cd1; 
-        }
+        .song-item.active { background: rgba(161, 140, 209, 0.1); border-color: #a18cd1; }
         .song-item.active h3 { color: #a18cd1; font-weight: bold; }
-        
         .song-info h3 { font-size: 1em; color: #333; margin-bottom: 4px; }
         .song-info p { font-size: 0.85em; color: #888; }
-
         .empty-playlist { text-align: center; padding: 40px; color: #999; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header-section">
+        <div class="fixed-header">
             <h1>🎵 2026 봄학기</h1>
             <p class="subtitle">Created by 줄래샘</p>
 
@@ -164,7 +154,7 @@
                 <div class="controls">
                     <button class="control-btn" id="rewindBtn">-2</button>
                     <button class="control-btn play" id="playBtn">▶</button>
-                    <button class="control-btn" id="forwardBtn">+12</button>
+                    <button class="control-btn" id="forwardBtn">+10</button>
                 </div>
 
                 <div class="settings-container">
@@ -179,14 +169,16 @@
                         <span class="setting-value"></span> </div>
                 </div>
             </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-category="실전모의고사">실전모의고사</button>
+                <button class="tab-btn" data-category="리스닝">리스닝</button>
+            </div>
         </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" data-category="실전모의고사">실전모의고사</button>
-            <button class="tab-btn" data-category="리스닝">리스닝</button>
+        <div class="playlist-scroll-area">
+            <div class="playlist" id="playlist"></div>
         </div>
-
-        <div class="playlist" id="playlist"></div>
     </div>
 
     <audio id="audio"></audio>
@@ -276,7 +268,7 @@
 
         playBtn.onclick = togglePlay;
         rewindBtn.onclick = () => { audio.currentTime = Math.max(0, audio.currentTime - 3); };
-        forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 12); };
+        forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 10); };
         
         audio.addEventListener('timeupdate', () => {
             if(audio.duration) {
