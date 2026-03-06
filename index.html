@@ -186,7 +186,7 @@
         }
 
         .speed-slider {
-            width: 130px;
+            width: 100px; /* 길이 조정됨 */
             height: 6px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.3);
@@ -398,7 +398,7 @@
             <div class="speed-control">
                 <span style="white-space: nowrap;">⚡ 배속</span>
                 <input type="range" class="speed-slider" id="speedSlider" min="1.0" max="1.5" step="0.1" value="1.0">
-                <span id="speedValue" style="width: 40px; text-align: right;">1.0x</span>
+                <span id="speedValue" style="min-width: 40px; text-align: left;">1.0x</span>
             </div>
 
             <div class="volume-control">
@@ -459,18 +459,17 @@
 
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playBtn');
-        // 이전/다음 버튼 변수 삭제됨
         const progressBar = document.getElementById('progressBar');
         const progress = document.getElementById('progress');
         const currentTimeEl = document.getElementById('currentTime');
         const durationEl = document.getElementById('duration');
         
-        // 볼륨 및 배속 요소 가져오기
+        // 볼륨 및 배속 요소
         const volumeSlider = document.getElementById('volumeSlider');
         const speedSlider = document.getElementById('speedSlider');
         const speedValue = document.getElementById('speedValue');
 
-        // 이동 버튼 가져오기 (수정됨)
+        // 이동 버튼
         const rewindBtn = document.getElementById('rewindBtn');
         const forwardBtn = document.getElementById('forwardBtn');
 
@@ -542,7 +541,7 @@
             isPlaying = !isPlaying;
         }
 
-        // 다음 곡 (함수는 유지하되 버튼 연결은 삭제)
+        // 다음 곡
         function nextSong() {
             if (songs.length === 0) return;
             currentSongIndex = (currentSongIndex + 1) % songs.length;
@@ -558,33 +557,42 @@
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
+        
+        // UI 업데이트 함수 (즉각 반응용)
+        function updateUI() {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = `${progressPercent}%`;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        }
 
         // 이벤트 리스너
         playBtn.onclick = togglePlay;
         
-        // 2초 뒤로 (과거) - 수정됨
+        // 2초 뒤로 (과거)
         rewindBtn.onclick = () => {
-            audio.currentTime -= 2;
+            // 현재 시간에서 2초 뺌 (0보다 작아지지 않게 Math.max 사용)
+            audio.currentTime = Math.max(0, audio.currentTime - 2);
+            updateUI(); // 즉시 화면 갱신
         };
 
-        // 12초 앞으로 (미래) - 수정됨
+        // 12초 앞으로 (미래)
         forwardBtn.onclick = () => {
-            audio.currentTime += 12;
+            // 현재 시간에서 12초 더함 (총 길이 넘지 않게 Math.min 사용)
+            if (audio.duration) {
+                audio.currentTime = Math.min(audio.duration, audio.currentTime + 12);
+                updateUI(); // 즉시 화면 갱신
+            }
         };
 
         audio.addEventListener('timeupdate', () => {
-            const progressPercent = (audio.currentTime / audio.duration) * 100;
-            progress.style.width = `${progressPercent}%`;
-            currentTimeEl.textContent = formatTime(audio.currentTime);
+            updateUI();
         });
 
         audio.addEventListener('loadedmetadata', () => {
             durationEl.textContent = formatTime(audio.duration);
-            // 곡이 바뀌어도 설정한 배속 유지
             audio.playbackRate = speedSlider.value;
         });
 
-        // 한 곡이 끝나면 자동으로 다음 곡 재생 (기능 유지)
         audio.addEventListener('ended', () => {
             nextSong();
         });
@@ -614,26 +622,20 @@
         // 탭 전환 기능
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                // 모든 탭 비활성화
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                // 클릭한 탭 활성화
                 btn.classList.add('active');
                 
-                // 카테고리 변경
                 currentCategory = btn.dataset.category;
                 songs = songsByCategory[currentCategory];
                 
-                // 재생 중이었으면 정지
                 audio.pause();
                 playBtn.textContent = '▶';
                 isPlaying = false;
                 
-                // 첫 곡으로 리셋
                 currentSongIndex = 0;
                 currentTitle.innerHTML = '음원을 선택하세요';
                 currentArtist.textContent = '-';
                 
-                // 재생목록 업데이트
                 displayPlaylist();
             });
         });
