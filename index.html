@@ -388,9 +388,13 @@
             </div>
 
             <div class="controls">
+                <button class="control-btn" id="rewindBtn" style="font-size: 14px; font-weight: bold;">-12</button>
+                
                 <button class="control-btn" id="prevBtn">⏮</button>
                 <button class="control-btn play" id="playBtn">▶</button>
                 <button class="control-btn" id="nextBtn">⏭</button>
+                
+                <button class="control-btn" id="forwardBtn" style="font-size: 14px; font-weight: bold;">+3</button>
             </div>
 
             <div class="speed-control">
@@ -472,6 +476,17 @@
         const currentTitle = document.getElementById('currentTitle');
         const currentArtist = document.getElementById('currentArtist');
         const playlistEl = document.getElementById('playlist');
+        // 12초/3초 이동 버튼 설정 (이 부분을 추가하세요)
+        const rewindBtn = document.getElementById('rewindBtn');
+        const forwardBtn = document.getElementById('forwardBtn');
+
+        rewindBtn.onclick = () => {
+            audio.currentTime -= 3;
+        };
+
+        forwardBtn.onclick = () => {
+            audio.currentTime += 12;
+        };
 
         // 초기 볼륨 설정
         audio.volume = 0.7;
