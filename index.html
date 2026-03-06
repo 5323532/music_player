@@ -2,125 +2,186 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🎵 2026 봄학기 음원</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-            min-height: 100vh;
-            display: flex; justify-content: center; align-items: center; padding: 20px;
+            height: 100vh; /* 화면 꽉 차게 */
+            overflow: hidden; /* 전체 화면 스크롤 막기 */
+            display: flex; justify-content: center; align-items: center;
         }
+
         .container {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px; padding: 40px; max-width: 800px; width: 100%;
+            width: 100%; height: 100%; /* 모바일에서는 꽉 차게 */
+            max-width: 600px; /* PC에서는 적당히 좁게 */
+            max-height: 900px; /* 너무 길어지지 않게 */
+            display: flex;
+            flex-direction: column; /* 위아래로 배치 */
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden; /* 내부 요소 튀어나옴 방지 */
         }
+        
+        /* PC 환경에서만 둥근 모서리 적용 */
+        @media (min-width: 600px) {
+            .container {
+                height: 90vh;
+                border-radius: 30px;
+            }
+        }
+
+        /* 상단 고정 영역 (제목 + 플레이어) */
+        .fixed-header {
+            padding: 30px 30px 10px 30px;
+            flex-shrink: 0; /* 절대 줄어들지 않음 */
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
         h1 {
             text-align: center;
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-size: 2.2em; margin-bottom: 10px; /* 폰트 사이즈 살짝 조정 */
+            font-size: 1.8em; margin-bottom: 5px;
         }
-        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 0.9em; }
+
         .player-main {
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-            border-radius: 20px; padding: 30px; margin-bottom: 30px; color: white;
+            border-radius: 20px; padding: 25px; color: white;
             box-shadow: 0 10px 30px rgba(161, 140, 209, 0.4);
-            position: sticky; top: 20px; z-index: 100;
         }
-        .now-playing { text-align: center; margin-bottom: 20px; }
-        .now-playing h2 { font-size: 1.6em; margin-bottom: 5px; word-break: keep-all; }
+
+        .now-playing { text-align: center; margin-bottom: 15px; }
+        .now-playing h2 { font-size: 1.4em; margin-bottom: 5px; word-break: keep-all; line-height: 1.2; }
+        
         .progress-bar {
-            width: 100%; height: 8px; background: rgba(255, 255, 255, 0.3);
+            width: 100%; height: 6px; background: rgba(255, 255, 255, 0.3);
             border-radius: 10px; cursor: pointer; position: relative; overflow: hidden;
         }
-        .progress {
-            height: 100%; background: white; border-radius: 10px; width: 0%;
-        }
-        .time-display { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.9em; }
+        .progress { height: 100%; background: white; border-radius: 10px; width: 0%; }
+        .time-display { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.8em; opacity: 0.9; }
         
-        /* 컨트롤 버튼 정렬 수정 */
-        .controls { display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 25px; }
+        .controls { display: flex; justify-content: center; align-items: center; gap: 30px; margin: 20px 0; }
         .control-btn {
-            background: white; border: none; width: 55px; height: 55px; border-radius: 50%;
+            background: white; border: none; width: 50px; height: 50px; border-radius: 50%;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2em; color: #a18cd1; transition: transform 0.1s;
-            font-weight: bold;
+            font-size: 1.1em; color: #a18cd1; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .control-btn:active { transform: scale(0.95); }
-        .control-btn.play { width: 75px; height: 75px; font-size: 2em; }
-        
-        .speed-control, .volume-control {
-            display: flex; align-items: center; gap: 15px; margin-top: 20px; justify-content: center;
-        }
-        input[type=range] { width: 120px; accent-color: white; }
+        .control-btn.play { width: 70px; height: 70px; font-size: 2em; }
 
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; }
+        /* 배속/볼륨 줄 맞춤 해결 */
+        .settings-container {
+            display: flex; flex-direction: column; gap: 10px; margin-top: 15px;
+        }
+        .setting-row {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .setting-label {
+            width: 50px; /* 글자 공간 고정 -> 줄 맞춤의 핵심 */
+            text-align: right;
+            font-size: 0.9em;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .setting-slider {
+            width: 140px; accent-color: white; height: 5px; cursor: pointer;
+        }
+        .setting-value {
+            width: 35px; text-align: left; font-size: 0.9em;
+        }
+
+        /* 탭 영역 */
+        .tabs {
+            display: flex; gap: 10px; padding: 0 30px 10px 30px;
+            border-bottom: 2px solid #e0e0e0; margin-top: 10px;
+            flex-shrink: 0;
+            background: white;
+        }
         .tab-btn {
-            flex: 1; padding: 15px; background: transparent; border: none;
-            border-bottom: 3px solid transparent; font-size: 1.1em; font-weight: bold; color: #999; cursor: pointer;
-            white-space: nowrap; /* 줄바꿈 방지 */
+            flex: 1; padding: 10px; background: transparent; border: none;
+            border-bottom: 3px solid transparent; font-size: 1em; font-weight: bold; color: #999;
+            cursor: pointer; white-space: nowrap;
         }
         .tab-btn.active { color: #a18cd1; border-bottom-color: #a18cd1; }
 
-        .playlist { max-height: 400px; overflow-y: auto; }
-        .song-item {
-            background: rgba(161, 140, 209, 0.1); padding: 15px 20px; border-radius: 15px;
-            margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.2s;
+        /* 스크롤 영역 (리스트만 스크롤) */
+        .playlist-container {
+            flex: 1; /* 남은 공간 모두 차지 */
+            overflow-y: auto; /* 여기만 스크롤 됨 */
+            padding: 10px 30px 30px 30px;
+            background: white;
+            -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
         }
-        .song-item:hover { background: rgba(161, 140, 209, 0.2); transform: translateY(-2px); }
-        .song-item.active { background: rgba(161, 140, 209, 0.4); border: 1px solid #a18cd1; }
-        .song-info h3 { font-size: 1.1em; color: #333; margin-bottom: 3px; }
-        .song-info p { font-size: 0.9em; color: #666; }
+        
+        .song-item {
+            background: rgba(161, 140, 209, 0.05); padding: 15px 20px; border-radius: 15px;
+            margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+        }
+        .song-item:hover { background: rgba(161, 140, 209, 0.15); }
+        .song-item.active { background: rgba(161, 140, 209, 0.3); border: 1px solid #a18cd1; }
+        .song-info h3 { font-size: 1em; color: #333; margin-bottom: 2px; }
+        .song-info p { font-size: 0.85em; color: #666; }
+
+        .empty-playlist { text-align: center; padding: 40px; color: #999; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎵 2026 봄학기</h1>
-        <p class="subtitle">Updated by Logo</p>
+        <div class="fixed-header">
+            <h1>🎵 2026 봄학기</h1>
+            <p class="subtitle">Updated by 줄래샘</p>
 
-        <div class="player-main">
-            <div class="now-playing">
-                <h2 id="currentTitle">파일을 선택하세요</h2>
-                <p id="currentArtist">-</p>
+            <div class="player-main">
+                <div class="now-playing">
+                    <h2 id="currentTitle">파일을 선택하세요</h2>
+                    <p id="currentArtist">-</p>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"><div class="progress" id="progress"></div></div>
+                    <div class="time-display"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
+                </div>
+
+                <div class="controls">
+                    <button class="control-btn" id="rewindBtn">-2</button>
+                    <button class="control-btn play" id="playBtn">▶</button>
+                    <button class="control-btn" id="forwardBtn">+12</button>
+                </div>
+
+                <div class="settings-container">
+                    <div class="setting-row">
+                        <span class="setting-label">⚡ 배속</span>
+                        <input type="range" class="setting-slider" id="speedSlider" min="1.0" max="1.5" step="0.1" value="1.0">
+                        <span class="setting-value" id="speedValue">1.0x</span>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">🔊 볼륨</span>
+                        <input type="range" class="setting-slider" id="volumeSlider" min="0" max="100" value="70">
+                        <span class="setting-value"></span> </div>
+                </div>
             </div>
 
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"><div class="progress" id="progress"></div></div>
-                <div class="time-display"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
-            </div>
-
-            <div class="controls">
-                <button class="control-btn" id="rewindBtn">-2</button>
-                <button class="control-btn play" id="playBtn">▶</button>
-                <button class="control-btn" id="forwardBtn">+12</button>
-            </div>
-
-            <div class="speed-control">
-                <span>⚡ 배속</span>
-                <input type="range" id="speedSlider" min="1.0" max="1.5" step="0.1" value="1.0">
-                <span id="speedValue">1.0x</span>
-            </div>
-            <div class="volume-control">
-                <span>🔊 볼륨</span>
-                <input type="range" id="volumeSlider" min="0" max="100" value="70">
+            <div class="tabs">
+                <button class="tab-btn active" data-category="실전모의고사">실전모의고사</button>
+                <button class="tab-btn" data-category="리스닝">리스닝</button>
             </div>
         </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" data-category="실전모의고사">실전모의고사</button>
-            <button class="tab-btn" data-category="리스닝">리스닝</button>
+        <div class="playlist-container">
+            <div class="playlist" id="playlist"></div>
         </div>
-        <div class="playlist" id="playlist"></div>
     </div>
 
     <audio id="audio"></audio>
 
     <script>
-        // ★ 화면에는 짧게 표시하고, 실제 파일은 긴 경로를 그대로 연결했습니다 ★
         const songsByCategory = {
             "실전모의고사": [
                 { title: "Week 2", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week2_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
@@ -133,25 +194,18 @@
             ],
             "리스닝": [
                 { title: "Week 1 - 수능 미리보기", artist: "리스닝", file: "music/Listening/Week1_수능 미리보기.mp3" },
-                
                 { title: "Week 2 - 실전", artist: "리스닝", file: "music/Listening/Week2_실전모의고사.mp3" },
                 { title: "Week 2 - 도표", artist: "리스닝", file: "music/Listening/Week2_유형편_도표.mp3" },
-
                 { title: "Week 3 - 실전", artist: "리스닝", file: "music/Listening/Week3_실전모의고사.mp3" },
                 { title: "Week 3 - 긴 대화의 응답", artist: "리스닝", file: "music/Listening/Week3_유형편_긴 대화의 응답.mp3" },
-                
                 { title: "Week 4 - 실전", artist: "리스닝", file: "music/Listening/Week4_실전모의고사.mp3" },
                 { title: "Week 4 - 학교,가정 생활", artist: "리스닝", file: "music/Listening/Week4_유형편_학교,가정 생활.mp3" },
-                
                 { title: "Week 5 - 실전", artist: "리스닝", file: "music/Listening/Week5_실전모의고사.mp3" },
                 { title: "Week 5 - 문화,사회 생활", artist: "리스닝", file: "music/Listening/Week5_유형편_문화,사회 생활.mp3" },
-                
                 { title: "Week 6 - 실전", artist: "리스닝", file: "music/Listening/Week6_실전모의고사.mp3" },
                 { title: "Week 6 - 직장 생활", artist: "리스닝", file: "music/Listening/Week6_유형편_직장 생활.mp3" },
-                
                 { title: "Week 7 - 실전", artist: "리스닝", file: "music/Listening/Week7_실전모의고사.mp3" },
                 { title: "Week 7 - 일상 생활", artist: "리스닝", file: "music/Listening/Week7_유형편_일상 생활.mp3" },
-                
                 { title: "Week 8 - 실전", artist: "리스닝", file: "music/Listening/Week8_실전모의고사.mp3" }
             ]
         };
@@ -180,7 +234,10 @@
 
         function displayPlaylist() {
             playlistEl.innerHTML = '';
-            if (!songs) return;
+            if (!songs) {
+                playlistEl.innerHTML = '<div class="empty-playlist">목록이 비었습니다</div>';
+                return;
+            }
             songs.forEach((song, index) => {
                 const item = document.createElement('div');
                 item.className = `song-item ${index === currentSongIndex ? 'active' : ''}`;
