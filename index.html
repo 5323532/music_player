@@ -115,7 +115,7 @@
     <audio id="audio"></audio>
 
     <script>
-        // ★ 스크린샷에 있는 파일 이름 그대로 적용했습니다 ★
+        // ★ 파일명 100% 일치 버전 (스크린샷 기반) ★
         const songsByCategory = {
             "실전모의고사": [
                 { title: "Week 2 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week2_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
@@ -127,6 +127,11 @@
                 { title: "Week 8 - 실전모의고사(심화)", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week8_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.mp3" }
             ],
             "리스닝": [
+                { title: "Week 1 - 수능 미리보기", artist: "리스닝", file: "music/Listening/Week1_수능 미리보기.mp3" },
+                
+                { title: "Week 2 - 실전모의고사", artist: "리스닝", file: "music/Listening/Week2_실전모의고사.mp3" },
+                { title: "Week 2 - 유형편 (도표)", artist: "리스닝", file: "music/Listening/Week2_유형편_도표.mp3" },
+
                 { title: "Week 3 - 실전모의고사", artist: "리스닝", file: "music/Listening/Week3_실전모의고사.mp3" },
                 { title: "Week 3 - 유형편 (긴 대화의 응답)", artist: "리스닝", file: "music/Listening/Week3_유형편_긴 대화의 응답.mp3" },
                 
@@ -198,7 +203,7 @@
         }
 
         playBtn.onclick = togglePlay;
-        rewindBtn.onclick = () => { audio.currentTime = Math.max(0, audio.currentTime - 2); };
+        rewindBtn.onclick = () => { audio.currentTime = Math.max(0, audio.currentTime - 3); };
         forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 12); };
         
         audio.addEventListener('timeupdate', () => {
