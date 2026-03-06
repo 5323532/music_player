@@ -571,7 +571,7 @@
         // 2초 뒤로 (과거)
         rewindBtn.onclick = () => {
             // 현재 시간에서 2초 뺌 (0보다 작아지지 않게 Math.max 사용)
-            audio.currentTime = Math.max(0, audio.currentTime - 2);
+            audio.currentTime = Math.max(0, audio.currentTime - 3);
             updateUI(); // 즉시 화면 갱신
         };
 
