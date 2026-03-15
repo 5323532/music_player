@@ -11,7 +11,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             min-height: 100vh;
-            overflow-y: auto; /* 전체 스크롤 허용 */
+            overflow-y: auto; 
             display: flex; justify-content: center; align-items: flex-start;
             padding: 20px 10px;
         }
@@ -49,20 +49,20 @@
         .now-playing { text-align: center; margin-bottom: 20px; }
         .now-playing h2 { font-size: 1.5em; margin-bottom: 5px; word-break: keep-all; line-height: 1.3; }
         
-        /* 재생 바 스타일 */
+        /* ★ 재생 바 스타일 (터치 영역 확대) ★ */
         .progress-container { 
             margin-bottom: 10px; 
-            padding: 10px 0;
+            padding: 10px 0; /* 터치하기 쉽게 위아래 여백 추가 */
             cursor: pointer;
         }
         .progress-bar {
-            width: 100%; height: 8px;
+            width: 100%; height: 8px; /* 두께 살짝 키움 */
             background: rgba(255, 255, 255, 0.3);
             border-radius: 10px; 
             position: relative; 
             overflow: hidden;
         }
-        .progress { height: 100%; background: white; border-radius: 10px; width: 0%; pointer-events: none; }
+        .progress { height: 100%; background: white; border-radius: 10px; width: 0%; pointer-events: none; /* 클릭 방해 금지 */ }
         .time-display { display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.85em; opacity: 0.95; }
         
         .controls { display: flex; justify-content: center; align-items: center; gap: 25px; margin: 25px 0; }
@@ -94,7 +94,6 @@
             width: 40px; text-align: right; font-size: 0.9em; font-weight: bold;
         }
 
-        /* 탭 고정 (Sticky) */
         .tabs-container {
             position: -webkit-sticky; position: sticky;
             top: 0; z-index: 999;
@@ -158,7 +157,7 @@
                 </div>
 
                 <div class="controls">
-                    <button class="control-btn" id="rewindBtn">-3</button>
+                    <button class="control-btn" id="rewindBtn">-2</button>
                     <button class="control-btn play" id="playBtn">▶</button>
                     <button class="control-btn" id="forwardBtn">+10</button>
                 </div>
@@ -193,13 +192,13 @@
     <script>
         const songsByCategory = {
             "실전모의고사": [
-                { title: "Week 2", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week2_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
-                { title: "Week 3", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week3_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
-                { title: "Week 4", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week4_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
-                { title: "Week 5", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week5_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
-                { title: "Week 6", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week6_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
-                { title: "Week 7", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week7_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.MP3" },
-                { title: "Week 8", artist: "고등영어", file: "music/실전모의고사_심화/2026_봄학기_week8_고등영어의 기술_실전모의고사(심화)_(MP3)_Step.2.mp3" }
+                { title: "Week 2", artist: "고등영어", file: "music/실전모의고사_완성/2026_봄학기_week2_고등영어의 기술_실전모의고사(완성)_(MP3)_Step.2.MP3" },
+                { title: "Week 3", artist: "고등영어", file: "music/실전모의고사_완성/2026_봄학기_week3_고등영어의 기술_실전모의고사(완성)_(MP3)_Step.2.MP3" },
+                { title: "Week 4", artist: "고등영어", file: "music/실전모의고사_완성/2026_봄학기_week4_고등영어의 기술_실전모의고사(완성)_(MP3)_Step.2.MP3" },
+                { title: "Week 5", artist: "고등영어", file: "music/실전모의고사_완성/2026_봄학기_week5_고등영어의 기술_실전모의고사(완성)_(MP3)_Step.2.MP3" },
+                { title: "Week 6", artist: "고등영어", file: "music/실전모의고사_완성/2026_봄학기_week6_고등영어의 기술_실전모의고사(완성)_(MP3)_Step.2.MP3" },
+                { title: "Week 7", artist: "고등영어", file: "music/실전모의고사_완성/2026_봄학기_week7_고등영어의 기술_실전모의고사(완성)_(MP3)_Step.2.MP3" },
+                { title: "Week 8", artist: "고등영어", file: "music/실전모의고사_완성/2026_봄학기_week8_고등영어의 기술_실전모의고사(완성)_(MP3)_Step.2.mp3" }
             ],
             "리스닝": [
                 { title: "Week 1 - 수능 미리보기", artist: "리스닝", file: "music/Listening/Week1_수능 미리보기.mp3" },
@@ -221,12 +220,12 @@
 
         let currentCategory = "실전모의고사";
         let songs = songsByCategory[currentCategory];
-        let currentSongIndex = -1; // 초기 선택 해제
+        let currentSongIndex = -1; // ★ 초기 선택 없애기 (-1로 설정) ★
         let isPlaying = false;
 
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playBtn');
-        const progressContainer = document.getElementById('progressContainer');
+        const progressContainer = document.getElementById('progressContainer'); // 수정됨
         const progressBar = document.querySelector('.progress-bar');
         const progress = document.getElementById('progress');
         const currentTimeEl = document.getElementById('currentTime');
@@ -250,6 +249,7 @@
             }
             songs.forEach((song, index) => {
                 const item = document.createElement('div');
+                // ★ 선택된 곡이 없으면(-1) active 클래스 안 줌 ★
                 item.className = `song-item ${index === currentSongIndex ? 'active' : ''}`;
                 item.innerHTML = `<div class="song-info"><h3>${song.title}</h3><p>${song.artist}</p></div><div class="song-duration">♪</div>`;
                 item.onclick = () => loadSong(index);
@@ -287,9 +287,8 @@
         }
 
         playBtn.onclick = togglePlay;
-        // 설정해주신 -3초, +10초 유지
         rewindBtn.onclick = () => { audio.currentTime = Math.max(0, audio.currentTime - 3); };
-        forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 9); };
+        forwardBtn.onclick = () => { if(audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 10); };
         
         audio.addEventListener('timeupdate', () => {
             if(audio.duration) {
@@ -305,12 +304,16 @@
             if(currentSongIndex < songs.length - 1) loadSong(currentSongIndex + 1);
         });
 
-        // 재생 바 클릭 이동 기능
+        // ★ 재생 바 클릭 이동 기능 (수정됨) ★
         progressContainer.addEventListener('click', (e) => {
-            if(!audio.duration) return; 
+            if(!audio.duration) return; // 노래 없으면 반응 안함
+            
+            // 클릭 위치 계산 정밀화
             const rect = progressBar.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
             const width = rect.width;
+            
+            // 범위 벗어남 방지
             if (clickX >= 0 && clickX <= width) {
                 const percentage = clickX / width;
                 audio.currentTime = percentage * audio.duration;
@@ -334,15 +337,10 @@
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
-                // 탭 변경
                 currentCategory = btn.dataset.category;
                 songs = songsByCategory[currentCategory];
                 
-                // ★ 재생 중단 및 초기화 로직 제거 ★
-                // 탭을 바꿔도 노래는 계속 나오게 유지합니다.
-                
-                // 단, 새로운 목록에서는 선택된 것이 없으므로 하이라이트 해제
-                currentSongIndex = -1; 
+                currentSongIndex = -1; // ★ 선택 해제 ★
                 
                 displayPlaylist();
             };
